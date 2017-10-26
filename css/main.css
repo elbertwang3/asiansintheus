@@ -79,5 +79,12 @@ p {
 
 
 #countymap { 
-	height: 400px;
+	margin: 0 auto;
+	width: 50%;
+	height: 70%;
+}
+#lacountymap { 
+	margin: 0 auto;
+	width: 50%;
+	height: 70%;
 }
