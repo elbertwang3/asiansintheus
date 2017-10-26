@@ -8,11 +8,21 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token='
     id: 'mapbox.light',
 }).addTo(countymap);
 
- Papa.parse('assets/data/wellston_zone_codes.csv', {
+ /*Papa.parse('assets/data/wellston_zone_codes.csv', {
  	 header: true,
     complete: function(results) {
 	countyData.eachLayer(function(layer) {
 		console.log(layer.feature.properties);
 	  featureJoinByProperty(layer.feature.properties, results.data, "PARCELID");
-	});
-L.geoJson(countyData).addTo(countymap);
+	});*/
+
+function style(feature) {
+    return {
+        fillColor: 'white',
+        weight: 0.3,
+        opacity: 1,
+        color: 'black',
+        fillOpacity: 0.3
+    };
+}
+L.geoJson(countyData, {style: style}).addTo(countymap);
