@@ -26,7 +26,7 @@ function style(feature) {
     return {
        fillColor: getColor(feature.properties['2009']),
        //fillColor:'white',
-           color: '#555',
+           color: 'white',
     weight: 0,
     opacity: 0,
        fillOpacity: 1
