@@ -25,10 +25,11 @@ var getColor = chroma.scale(['#451A53','#40968B','#FDE733']).domain([0,110000])
 function style(feature) {
     return {
        fillColor: getColor(feature.properties['2009']),
-       opacity: 1,
-       weight: 0.3,
-        color: 'black',
-        fillOpacity: 1
+       //fillColor:'white',
+           color: '#555',
+    weight: 0,
+    opacity: 0,
+       fillOpacity: 1
 
     };
 }
