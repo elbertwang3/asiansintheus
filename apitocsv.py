@@ -15,7 +15,7 @@ def main(args):
 	#pprint(data['features'][0])
 	asiansperyear = defaultdict(list)
 	apikey = '299c034012920f2e0a880131d68b369d0886ec1f'
-	url = args[1] + '&key=' + apikey
+	
 	
 	wadecounty = ('02','270')
 	kusilvak = ('02','158')
@@ -43,6 +43,23 @@ def main(args):
 				asiansperyear[statecounty].append(int(row[1]))
 	for k,v in asiansperyear.iteritems():
 		print k,v
+
+
+	for i in range(len(data['features'])):
+		county = data['features'][i]
+		properties = county['properties']
+		statefp = properties['STATEFP']
+		countyfp = properties['COUNTYFP']
+		for j in range(2009, 2016):
+			properties[str(j)] = asiansperyear[(statefp,countyfp)][j-2009]
+
+	pprint(data['features'])
+
+
+	with open('data/nationalcountydata/countieswdata.json', 'w') as fp:
+		json.dump(data, fp)
+
+
 
 	
 	

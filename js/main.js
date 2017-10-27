@@ -21,14 +21,15 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token='
 		console.log(layer.feature.properties);
 	  featureJoinByProperty(layer.feature.properties, results.data, "PARCELID");
 	});*/
-
+var getColor = chroma.scale(['#451A53','#40968B','#FDE733']).domain([0,110000])
 function style(feature) {
     return {
-        fillColor: 'white',
-        weight: 0.3,
-        opacity: 1,
+       fillColor: getColor(feature.properties['2009']),
+       opacity: 1,
+       weight: 0.3,
         color: 'black',
-        fillOpacity: 0.3
+        fillOpacity: 1
+
     };
 }
 
@@ -37,3 +38,19 @@ function style(feature) {
 console.log(lacounty);
 L.geoJson(countyData, {style: style}).addTo(countymap);
 L.geoJson(lacounty, {style: style}).addTo(LAcountymap);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
