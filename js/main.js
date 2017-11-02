@@ -3,6 +3,8 @@
 var mapboxAccessToken = 'pk.eyJ1IjoiZWxiZXJ0d2FuZyIsImEiOiJjajk3dmw4amUwYmV2MnFydzl3NDIyaGFpIn0.46xwSuceSuv2Fkeqyiy0JQ';
 var countymap = L.map('countymap').setView([39.8283, -98.5795], 4);
 console.log(countyData);
+
+
 L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token='+mapboxAccessToken, {
     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
     id: 'mapbox.light',
@@ -13,6 +15,10 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token='
     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
     id: 'mapbox.streets',
 }).addTo(LAcountymap);
+
+var currentyear = 2015;
+
+
 
  /*Papa.parse('assets/data/wellston_zone_codes.csv', {
  	 header: true,
@@ -30,6 +36,8 @@ function getColor(d) {
                       '#253494';
 }
 
+
+
 function style(feature) {
     return {
     	fillColor: getColor(feature.properties['2015']),
@@ -39,10 +47,22 @@ function style(feature) {
     }
 }
 
+function style2(feature) {
+    return {
+    	fillColor: getColor(feature.properties['2015']),
+        color: '#fff', // border color 
+        weight: 0.3,
+        fillOpacity: 0.7
+    }
+}
+
+
 
 
 console.log();
 var geojson;
+var geojson2;
+
 //L.geoJson(countyData, {style: style}).addTo(countymap);
 /*geojson = L.choropleth(percentData, {
     valueProperty: '2015', // which property in the features to use 
@@ -64,7 +84,7 @@ var geojson;
     }
 }).addTo(countymap)*/
 geojson = L.geoJson(percentData, {
-    style: style,
+   	style: style,
     onEachFeature: function(feature, layer) {
  
         layer.on({
@@ -74,10 +94,42 @@ geojson = L.geoJson(percentData, {
 	    });
     }
 }).addTo(countymap)
-L.geoJson(lacounty, {style: style}).addTo(LAcountymap);
+
+geojson2 = L.geoJson(lacountypercent, {
+	style: style2,
+	onEachFeature: function(feature, layer) {
+ 
+        layer.on({
+	        mouseover: highlightFeature2,
+	        mouseout: resetHighlight2,
+	        click: zoomToFeature2
+	    });
+    }
+}).addTo(LAcountymap);
 
 
 
+var slider1 = L.control.slider(function(value) { 
+	console.log(value);
+
+	currentyear = value;
+	geojson.eachLayer(function(layer) {
+		 layer.setStyle({fillColor: getColor(layer.feature.properties[value.toString()]),})
+	});
+	
+}, {
+																	min: 2010, 
+																	max: 2015, 
+																	step: 1, 
+																	size: '235px',
+																	collapsed: false,
+																	width: 10,
+																	value: 2015,
+																	id: 'slider1', 
+																	position: 'bottomleft',
+																	orientation: 'horizontal'});
+
+slider1.addTo(countymap);
 
 function highlightFeature(e) {
     var layer = e.target;
@@ -103,8 +155,32 @@ function resetHighlight(e) {
     info.update();
 }
 
-var info = L.control();
+function highlightFeature2(e) {
+    var layer = e.target;
 
+    layer.setStyle({
+        weight: 2.5,
+        color: '#666',
+        fillOpacity: 0.7
+    });
+
+    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+        layer.bringToFront();
+    }
+    info2.update(layer.feature.properties);
+}
+
+function zoomToFeature2(e) {
+    LAcountymap.fitBounds(e.target.getBounds());
+}
+
+function resetHighlight2(e) {
+    geojson2.resetStyle(e.target);
+    info2.update();
+}
+
+var info = L.control();
+var info2 = L.control();
 info.onAdd = function (map) {
     this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
     this.update();
@@ -114,11 +190,26 @@ info.onAdd = function (map) {
 // method that we will use to update the control based on feature properties passed
 info.update = function (props) {
     this._div.innerHTML = '<h4>Asian population percentage</h4>' +  (props ?
-        '<b>' + props['NAME'] + ' County' + '</b><br />' + props['2015'] * 100 + '% '
+        '<b>' + props['NAME'] + ' County' + '</b><br />' + props[currentyear.toString()] * 100 + '% '
         : 'Hover over a county');
 };
 
+info2.onAdd = function (map) {
+    this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+    this.update();
+    return this._div;
+};
+
+// method that we will use to update the control based on feature properties passed
+info2.update = function (props) {
+    this._div.innerHTML = '<h4>Asian population percentage</h4>' +  (props ?
+        '<b>' + props['metadata']['NAMELSAD'] + '</b><br />' + props['2015'] * 100 + '% '
+        : 'Hover over a tract');
+};
+
 info.addTo(countymap);
+info2.addTo(LAcountymap);
+
 
 var legend = L.control({position: 'bottomright'});
 
@@ -139,7 +230,7 @@ legend.onAdd = function (map) {
 };
 
 legend.addTo(countymap);
-
+legend.addTo(LAcountymap);
 
 
 
