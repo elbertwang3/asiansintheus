@@ -20,6 +20,13 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token='
     id: 'mapbox.light',
 }).addTo(SFcountymap);
 
+
+var NYcountymap = L.map('nycountymap').setView([40.720610, -73.935242], 11);
+L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token='+mapboxAccessToken, {
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+    id: 'mapbox.light',
+}).addTo(NYcountymap);
+
 var currentyear = 2015;
 
 
@@ -72,32 +79,22 @@ function style3(feature) {
 }
 
 
+function style4(feature) {
+    return {
+    	fillColor: getColor(feature.properties['2010']),
+        color: '#fff', // border color 
+        weight: 0.3,
+        fillOpacity: 0.7
+    }
+}
+
 
 console.log();
 var geojson;
 var geojson2;
 var geojson3;
+var geojson4;
 
-//L.geoJson(countyData, {style: style}).addTo(countymap);
-/*geojson = L.choropleth(percentData, {
-    valueProperty: '2015', // which property in the features to use 
-    scale: chroma.scale(['#2A4858','#fafa6e']).mode('lch').colors(5), // chroma.js scale - include as many as you like 
-    steps: 6, // number of breaks or steps in range 
-    mode: 'e', // q for quantile, e for equidistant, k for k-means 
-    style: {
-        color: '#fff', // border color 
-        weight: 0.3,
-        fillOpacity: 1
-    },
-    onEachFeature: function(feature, layer) {
- 
-        layer.on({
-	        mouseover: highlightFeature,
-	        mouseout: resetHighlight,
-	        click: zoomToFeature
-	    });
-    }
-}).addTo(countymap)*/
 geojson = L.geoJson(percentData, {
    	style: style,
     onEachFeature: function(feature, layer) {
@@ -135,6 +132,18 @@ geojson3 = L.geoJson(sfcountypercent, {
     }
 }).addTo(SFcountymap);
 
+
+geojson4 = L.geoJson(nycountypercent, {
+	style: style4,
+	/*onEachFeature: function(feature, layer) {
+ 
+        layer.on({
+	        mouseover: highlightFeature3,
+	        mouseout: resetHighlight3,
+	        click: zoomToFeature3
+	    });
+    }*/
+}).addTo(NYcountymap);
 
 
 var slider1 = L.control.slider(function(value) { 
