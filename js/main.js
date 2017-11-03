@@ -159,7 +159,7 @@ var slider1 = L.control.slider(function(value) {
 																	size: '235px',
 																	collapsed: false,
 																	width: 10,
-																	value: 2015,
+																	value: 2010,
 																	id: 'slider1', 
 																	position: 'bottomleft',
 																	orientation: 'horizontal'});
