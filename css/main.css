@@ -78,12 +78,8 @@ h5 {
 }*/
 
 
-#countymap { 
-	margin: 0 auto;
-	width: 50%;
-	height: 70%;
-}
-#lacountymap { 
+
+.map { 
 	margin: 0 auto;
 	width: 50%;
 	height: 70%;
