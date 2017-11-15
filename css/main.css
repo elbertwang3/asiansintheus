@@ -108,13 +108,18 @@ h5 {
 }
 
 
-@media screen and (max-width: 500px) /* Mobile */ {
+@media screen and (max-width: 500px) {
   
-.paragraph p {
-	font-family: Garamond;
-	font-size: 16px;
-	text-align: left;
-	max-width: 90%;
-	margin: 0 auto;
-}
+	.paragraph p {
+		font-family: Garamond;
+		font-size: 16px;
+		text-align: left;
+		max-width: 90%;
+		margin: 0 auto;
+	}
+	.map { 
+		margin: 30 auto;
+		height: 40%;
+		width: 90%;
+	}
 }
