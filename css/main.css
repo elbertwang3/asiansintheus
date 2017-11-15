@@ -57,7 +57,7 @@ h5 {
  	margin-top: 30px;
 }
 .article {
-	max-width: 1000px;
+	max-width: 900px;
 	margin: 0 auto;
 }
 
@@ -72,10 +72,13 @@ h5 {
 
 
 
+
+
+
 .map { 
 	margin: 30 auto;
-	height: 500px;
-	width: 95%;
+	height: 70%;
+	width: 90%;
 }
 
 
@@ -102,4 +105,16 @@ h5 {
     float: left;
     margin-right: 8px;
     opacity: 0.7;
+}
+
+
+@media screen and (max-width: 500px) /* Mobile */ {
+  
+.paragraph p {
+	font-family: Garamond;
+	font-size: 16px;
+	text-align: left;
+	max-width: 90%;
+	margin: 0 auto;
+}
 }
