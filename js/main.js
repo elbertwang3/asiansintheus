@@ -274,6 +274,7 @@ info.onAdd = function (map) {
 
 // method that we will use to update the control based on feature properties passed
 info.update = function (props) {
+	console.log(props);
     this._div.innerHTML = '<h4>Asian population percentage</h4>' +  (props ?
         '<b>' + props['NAME'] + ' County' + '</b><br />' + props[currentyear.toString()] * 100 + '% '
         : 'Hover over a county');
